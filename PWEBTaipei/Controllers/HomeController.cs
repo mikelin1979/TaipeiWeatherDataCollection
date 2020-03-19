@@ -4,40 +4,27 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PWEBTaipei.Bussiness;
 using PWEBTaipei.Models;
 
 namespace PWEBTaipei.Controllers
 {
     public class HomeController : Controller
     {
+        private PWEBAgent agent = new PWEBAgent();
         public IActionResult Index()
         {
+            //var data = agent.get("北投區");
             return View();
         }
 
-        public IActionResult About()
+        [HttpPost]
+        public JsonResult Query([FromBody] QueryModel input)
         {
-            ViewData["Message"] = "Your application description page.";
+            LineChartViewModel result = new LineChartViewModel();
 
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            result = agent.get(input.location, input.sttime, input.edtime);
+            return Json(result);
         }
     }
 }

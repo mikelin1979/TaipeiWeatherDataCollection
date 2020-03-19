@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PWEBTaipei.Models;
+using PWEBTaipei.Service;
 
 namespace PWEBTaipei
 {
@@ -21,6 +23,7 @@ namespace PWEBTaipei
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,6 +34,9 @@ namespace PWEBTaipei
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            PWEBSetting.PWEBKey = Configuration.GetSection("PWEBSetting").GetValue<string>("PWEBKey");
+            PWEBSetting.PWEBBaseUrl = Configuration.GetSection("PWEBSetting").GetValue<string>("PWEBBaseUrl");
+            PWEBSetting.DBConnection = Configuration.GetSection("PWEBSetting").GetValue<string>("DBConnection");
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -41,11 +47,6 @@ namespace PWEBTaipei
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
             }
 
             app.UseHttpsRedirection();

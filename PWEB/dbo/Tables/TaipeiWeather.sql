@@ -1,5 +1,4 @@
 ﻿CREATE TABLE [dbo].[TaipeiWeather] (
-    [ID]                 INT            IDENTITY (1, 1) NOT NULL,
     [Location]           NVARCHAR (50)  NOT NULL,
     [StartTime]          DATETIME       NOT NULL,
     [EndTime]            DATETIME       NOT NULL,
@@ -18,6 +17,6 @@
     [Td]                 TINYINT        NOT NULL,
     [Weather]            NVARCHAR (50)  NOT NULL,
     [WeatherDescription] NVARCHAR (MAX) NOT NULL,
-    CONSTRAINT [PK_TaipeiWeather] PRIMARY KEY CLUSTERED ([ID] ASC)
+    CONSTRAINT [PK_TaipeiWeather_1] PRIMARY KEY CLUSTERED ([Location] ASC, [EndTime] ASC, [StartTime] ASC)
 );
 
